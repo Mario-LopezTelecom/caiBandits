@@ -4,10 +4,11 @@ clear all
 close all
 clc
 
-horizon = 1000;
-num_sims = 5;
-
+% Parametros a configurar
+horizon = 10000;
+num_sims = 15;
 epsilon = 0.1;
+
 e_greedy = e_greedy_algo(epsilon);
 rate1 = 1.5;
 e_greedy_rate_15 = e_greedy_rate_algo(epsilon,rate1);
@@ -41,8 +42,9 @@ clear all
 close all
 clc
 
+% Parametros a configurar
 horizon = 10000;
-num_sims = 5;
+num_sims = 15;
 
 ucb = ucb_algo;
 rate1 = 1.5;

@@ -1,10 +1,9 @@
-function ctr_per_round = data_bandit_sim (algo, horizon, batch_size, num_sims, num_init)
+function ctr_per_round = data_bandit_sim (algo, horizon, batch_size, num_sims)
 % Sanity check
 if (horizon*num_sims >= 180000) 
     error (['Pides demasiado: solo tienes 180000 muestras. '...
             'Reduce el horizonte y/o el numero de simulaciones.']);
 end
-horizon = horizon + num_init;                   %OJO A ESTA REDEFINICION
 ctr_per_sim_per_round = zeros(num_sims,horizon);
 for it = 1:num_sims
     it
@@ -12,30 +11,10 @@ for it = 1:num_sims
     num_arms = length(ctr_data(1,:));
     sample_ptrs = ones(1,num_arms);
     algo.initialize(num_arms);
-    % Init samples
     n_batch = 1;
-    reward_batch = zeros(1,num_init);
-    chosen_arm_batch = zeros(1,num_init);
-    for n = 1:num_init
-        chosen_arm = randi(num_arms,1);
-        chosen_arm_batch(n_batch) = chosen_arm;
-        reward = ctr_data(sample_ptrs(chosen_arm),chosen_arm);
-        reward_batch(n_batch) = reward;
-        sample_ptrs(chosen_arm)=sample_ptrs(chosen_arm)+1;
-        if (n == 1)
-            ctr = 0;
-        else
-            ctr = ctr_per_sim_per_round(it,n-1);
-        end;
-        ctr_per_sim_per_round(it,n) = (n - 1) / n * ctr + (1 / n) * reward;
-        n_batch = n_batch + 1;
-    end
-    algo.update(chosen_arm_batch, reward_batch);
     reward_batch = zeros(1,batch_size);
     chosen_arm_batch = zeros(1,batch_size);
-    n_batch = 1;
-    % Online operation
-    for n = num_init+1:horizon
+    for n = 1:horizon
         chosen_arm = algo.select_arm();
         chosen_arm_batch(n_batch) = chosen_arm;
         reward = ctr_data(sample_ptrs(chosen_arm),chosen_arm);

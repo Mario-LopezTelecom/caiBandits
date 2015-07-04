@@ -5,8 +5,8 @@ clc
 
 % Parametros a configurar
 mean_rewards = [0.08 0.1 0.3 0.4];
-horizon = 1000;
-num_sims = 5;
+horizon = 10000;
+num_sims = 15;
 epsilon = 0.1;
 
 random_pick = random_algo;

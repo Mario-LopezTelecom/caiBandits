@@ -3,8 +3,9 @@ clear all
 close all
 clc
 
-horizon = 1000;
-num_sims = 5;
+% Parametros a configurar
+horizon = 10000;
+num_sims = 15;
 epsilon = 0.1;
 
 e_greedy = e_greedy_algo(epsilon);
